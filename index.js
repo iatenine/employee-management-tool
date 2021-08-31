@@ -4,7 +4,7 @@ const questions = [
   {
     type: "list",
     name: "task",
-    message: "What is your first name?",
+    message: "Select an Action",
     choices: [
       "View All Departments",
       "View All Roles",
