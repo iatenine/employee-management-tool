@@ -1,4 +1,9 @@
 const inquirer = require("inquirer");
+const sequelize = require("./config/connection");
+
+const Department = require("./models/Department");
+const Employee = require("./models/Employee");
+const Role = require("./models/Role");
 
 const questions = [
   {
@@ -17,6 +22,21 @@ const questions = [
   },
 ];
 
-inquirer.prompt(questions).then((answers) => {
-  console.log(answers);
-});
+inquirer
+  .prompt(questions)
+  .then((answers) => {
+    console.log(answers);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+sequelize
+  .sync()
+  .then(() => {
+    console.log("Database has been synced");
+  })
+  .then((err) => {
+    console.log("Database has been synced");
+    console.error(err);
+  });
