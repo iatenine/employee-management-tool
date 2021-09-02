@@ -31,20 +31,41 @@ class DataManager {
       (err, result) => {
         if (err) throw new Error(err);
         console.log("Department Added!");
-        console.log(`${result}`);
+        console.table(`${result}`);
       }
     );
   }
 
   addRole(title, salary, department_id) {
     connection.execute(
-      `INSERT INTO departments (title, salary, department_id) values ('${tille}', '${salary}', '${department_id}')`,
+      `INSERT INTO roles (title, salary, department_id) values ('${title}', '${salary}', '${department_id}')`,
       (err, result) => {
         if (err) throw new Error(err);
-        console.log("Department Added!");
-        console.log(`${result}`);
+        console.log("Role Added!");
+        console.table(`${result}`);
       }
     );
+  }
+
+  addEmployee(first_name, last_name, role_id, manager_id) {
+    if (!manager_id)
+      connection.execute(
+        `INSERT INTO employees (first_name, last_name, role_id) values ('${first_name}', '${last_name}', '${role_id}')`,
+        (err, result) => {
+          if (err) throw new Error(err);
+          console.log("Employee Added!");
+          console.table(`${result}`);
+        }
+      );
+    else
+      connection.execute(
+        `INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('${first_name}', '${last_name}', '${role_id}', '${manager_id}')`,
+        (err, result) => {
+          if (err) throw new Error(err);
+          console.log("Employee Added!");
+          console.table(`${result}`);
+        }
+      );
   }
 }
 

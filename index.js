@@ -48,6 +48,34 @@ const roleAddQuestions = [
   },
 ];
 
+const employeeAddQuestions = [
+  {
+    type: "string",
+    name: "first_name",
+    message: "Enter new employee's first name",
+  },
+  {
+    type: "string",
+    name: "last_name",
+    message: "Enter new employee's last name",
+  },
+  {
+    type: "number",
+    name: "role_id",
+    message: "Enter associated role's ID",
+    validate: (entry) => {
+      if (!isNaN(entry)) return true;
+      return "Entry must be a valid number";
+    },
+  },
+  {
+    type: "number",
+    name: "manager_id",
+    message: "Enter manager's ID (skip if not applicable)",
+    default: null,
+  },
+];
+
 async function setDeparmentData() {
   try {
     const answer = await inquirer.prompt(deptAddQuestions);
@@ -67,12 +95,13 @@ async function setRoleData() {
 }
 
 async function setEmployeeData() {
-  // try {
-  //   const answer = await inquirer.prompt(deptAddQuestions);
-  //   dataManager.addDepartment(answer.name);
-  // } catch (err) {
-  //   console.error(err);
-  // }
+  try {
+    const answer = await inquirer.prompt(employeeAddQuestions);
+    dataManager.addEmp
+    if (!answer.manager_id) console.table(answer);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function promptQuestions() {
@@ -97,6 +126,9 @@ async function promptQuestions() {
         break;
       case choiceList[5]:
         await setEmployeeData();
+        break;
+      case choiceList[6]:
+        console.log("Functionality coming soon!");
         break;
       default:
         console.log("Goodbye!");
