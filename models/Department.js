@@ -17,6 +17,7 @@ Department.init(
   {
     sequelize,
     underscored: true,
+    timestamps: false,
   }
 );
 

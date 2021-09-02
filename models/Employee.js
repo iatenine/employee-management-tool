@@ -25,6 +25,7 @@ Employee.init(
     },
     managerId: {
       type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: "employees",
         key: "employee_id",
@@ -34,6 +35,7 @@ Employee.init(
   {
     sequelize,
     underscored: true,
+    timestamps: false,
   }
 );
 

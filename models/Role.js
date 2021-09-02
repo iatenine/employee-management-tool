@@ -27,6 +27,7 @@ Role.init(
   {
     sequelize,
     underscored: true,
+    timestamps: false,
   }
 );
 
