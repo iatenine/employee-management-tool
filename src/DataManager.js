@@ -12,10 +12,15 @@ class DataManager {
   }
 
   getRoles() {
-    connection.execute("SELECT * FROM roles", (err, result) => {
-      if (err) console.error(err);
-      console.table(result);
-    });
+    connection.execute(
+      `SELECT title, salary, name FROM company_db.roles
+INNER JOIN company_db.departments
+ON company_db.roles.department_id = company_db.departments.department_id;`,
+      (err, result) => {
+        if (err) console.error(err);
+        console.table(result);
+      }
+    );
   }
 
   getEmployees() {
