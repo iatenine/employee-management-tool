@@ -1,45 +1,54 @@
 const inquirer = require("inquirer");
+const DataManager = require("./src/DataManager");
+
+const choiceList = ["VIEW DEPARTMENTS", "ADD DEPARTMENT", "EXIT"];
+const dataManager = new DataManager();
 
 const questions = [
   {
     type: "list",
     name: "task",
     message: "Select an Action",
-    choices: [
-      "VIEW DEPARTMENTS",
-      "VIEW ROLES",
-      "VIEW EMPLOYEES",
-      "ADD DEPARTMENT",
-      "ADD ROLE",
-      "ADD EMPLOYEE",
-      "UPDATE EMPLOYEE ROLE",
-      "EXIT",
-    ],
+    choices: choiceList,
   },
 ];
+
+const deptAddQuestions = [
+  {
+    type: "string",
+    name: "name",
+    message: "What is the name of the new department?",
+  },
+];
+
+async function specifyName() {
+  try {
+    const answer = await inquirer.prompt(deptAddQuestions);
+    dataManager.addDepartment(answer.name);
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 async function promptQuestions() {
   try {
     const answer = await inquirer.prompt(questions);
-    const action = answer.task.split(" ")[0];
-    const table = answer.task.split(" ")[1];
 
-    switch (action) {
-      case "VIEW":
-        // TODO
+    switch (answer.task) {
+      case choiceList[0]:
+        dataManager.getDepartments();
         break;
-      case "ADD":
-        // TODO: 
-        break;
-      case "UPDATE":
-        // TODO: update employee role
+      case choiceList[1]:
+        await specifyName();
         break;
       default:
-        // TODO: exit program
-        break;
+        console.log("Goodbye!");
+        process.exit(0);
     }
+    promptQuestions();
   } catch (err) {
-    console.error(err);
+    if (err) throw new Error(err);
+    console.log("why are we here?");
   }
 }
 
