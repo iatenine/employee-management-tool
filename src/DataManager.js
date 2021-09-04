@@ -98,7 +98,7 @@ class DataManager {
     }
   }
 
-  async executeSql(command, successMessage) {
+  async executeSql(command) {
     try {
       return await new Promise((resolve, reject) => {
         connection.execute(command, (err, result) => {

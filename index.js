@@ -10,10 +10,11 @@ cTable.getTable();
 
 async function promptQuestions() {
   try {
-    const answer = await inquirer.prompt(qManager.questions);
+    const task = await inquirer.prompt(qManager.questions);
     let res;
+    let answer;
 
-    switch (answer.task) {
+    switch (task.task) {
       case qManager.choiceList[0]:
         res = await dataManager.getDepartments();
         break;
@@ -24,16 +25,27 @@ async function promptQuestions() {
         res = await dataManager.getEmployees();
         break;
       case qManager.choiceList[3]:
-        res = await setDeparmentData();
+        answer = await inquirer.prompt(qManager.deptAddQuestions);
+        res = await dataManager.addDepartment(answer.name);
         break;
       case qManager.choiceList[4]:
-        res = await setRoleData();
+        answer = await inquirer.prompt(qManager.roleAddQuestions);
+        res = await dataManager.addRole(
+          answer.title,
+          answer.salary,
+          answer.department_id
+        );
         break;
       case qManager.choiceList[5]:
-        res = await setEmployeeData();
+        answer = await inquirer.prompt(qManager.employeeAddQuestions);
+        res = await dataManager.addEmployee();
         break;
       case qManager.choiceList[6]:
-        res = await updateEmployeeRole();
+        answer = await inquirer.prompt(qManager.updateRoleQuestions);
+        res = await dataManager.updateEmployeeRole(
+          answer.employee_id,
+          answer.new_role_id
+        );
         break;
       default:
         console.log("Goodbye!");
@@ -43,43 +55,6 @@ async function promptQuestions() {
     promptQuestions();
   } catch (err) {
     if (err) throw new Error(err);
-  }
-}
-
-async function setDeparmentData() {
-  try {
-    const answer = await inquirer.prompt(qManager.deptAddQuestions);
-    dataManager.addDepartment(answer.name);
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function setRoleData() {
-  try {
-    const answer = await inquirer.prompt(qManager.roleAddQuestions);
-    dataManager.addRole(answer.title, answer.salary, answer.department_id);
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function setEmployeeData() {
-  try {
-    const answer = await inquirer.prompt(qManager.employeeAddQuestions);
-    dataManager.addEmp;
-    if (!answer.manager_id) console.table(answer);
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-async function updateEmployeeRole() {
-  try {
-    const answer = await inquirer.prompt(qManager.updateRoleQuestions);
-    dataManager.updateEmployeeRole(answer.employee_id, answer.new_role_id);
-  } catch (err) {
-    console.error(err);
   }
 }
 
