@@ -7,13 +7,18 @@ const queryList = {
     roleQuery: `SELECT role_id, title, salary, name FROM company_db.roles
 INNER JOIN company_db.departments
 ON company_db.roles.department_id = company_db.departments.department_id;`,
-    employeeQuery: `SELECT 
-    CONCAT(e.first_name, ' ', e.last_name) AS Employee,
+    employeeQuery: `SELECT
+    e.employee_id,
+    e.first_name,
+    e.last_name,
+    r.title,
     CONCAT(m.first_name, ' ', m.last_name) AS 'Manager'
 FROM
     employees e
 LEFT JOIN employees m ON 
     m.employee_id = e.manager_id
+LEFT JOIN roles r ON
+    r.role_id = e.role_id
 ORDER BY 
     e.manager_id;
     `,
