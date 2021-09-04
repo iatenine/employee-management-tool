@@ -23,6 +23,7 @@
     "dotenv": "^10.0.0",
     "inquirer": "^8.1.2",
     "jest": "^27.1.0",
-    "mysql2": "^2.3.0"
+    "mysql2": "^2.3.0",
+    "wait-console-input": "^0.1.7"
   }
 }

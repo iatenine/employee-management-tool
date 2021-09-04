@@ -28,51 +28,87 @@ ORDER BY
 class DataManager {
   constructor() {}
 
-  getDepartments() {
-    this.executeSql(queryList.selectQueries.departmentQuery);
+  async getDepartments() {
+    try {
+      return await this.executeSql(queryList.selectQueries.departmentQuery);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  getRoles() {
-    this.executeSql(queryList.selectQueries.roleQuery);
+  async getRoles() {
+    try {
+      return await this.executeSql(queryList.selectQueries.roleQuery);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  getEmployees() {
-    this.executeSql(queryList.selectQueries.employeeQuery);
+  async getEmployees() {
+    try {
+      return await this.executeSql(queryList.selectQueries.employeeQuery);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  addDepartment(name) {
-    const query = `INSERT INTO departments (name) values ('${name}')`;
-    this.executeSql(query, "Department Added!");
+  async addDepartment(name) {
+    try {
+      const query = `INSERT INTO departments (name) values ('${name}')`;
+      await this.executeSql(query);
+      return "Department Added!";
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  addRole(title, salary, department_id) {
-    const query = `INSERT INTO roles (title, salary, department_id) values ('${title}', '${salary}', '${department_id}')`;
-    this.executeSql(query);
+  async addRole(title, salary, department_id) {
+    try {
+      const query = `INSERT INTO roles (title, salary, department_id) values ('${title}', '${salary}', '${department_id}')`;
+      await this.executeSql(query);
+      return "Role Updated!";
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  addEmployee(first_name, last_name, role_id, manager_id) {
-    const query = manager_id
-      ? `INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('${first_name}', '${last_name}', '${role_id}', '${manager_id}')`
-      : `INSERT INTO employees (first_name, last_name, role_id) values ('${first_name}', '${last_name}', '${role_id}')`;
-    this.executeSql(query, "Employee Added");
+  async addEmployee(first_name, last_name, role_id, manager_id) {
+    try {
+      const query = manager_id
+        ? `INSERT INTO employees (first_name, last_name, role_id, manager_id) values ('${first_name}', '${last_name}', '${role_id}', '${manager_id}')`
+        : `INSERT INTO employees (first_name, last_name, role_id) values ('${first_name}', '${last_name}', '${role_id}')`;
+      this.executeSql(query);
+      return "Employee Added!";
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  updateEmployeeRole(employee_id, new_role_id) {
-    const query = `UPDATE employees
+  async updateEmployeeRole(employee_id, new_role_id) {
+    try {
+      const query = `UPDATE employees
     SET 
     role_id = ${new_role_id}
     WHERE
     employee_id = ${employee_id};`;
-    this.executeSql(query, "Employee role updated!");
+      await this.executeSql(query);
+      return "Employee role updated!";
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  executeSql(command, successMessage) {
-    connection.execute(command, (err, result) => {
-      if (err) throw new Error(err);
-      if (successMessage) {
-        console.log(successMessage);
-      } else console.table(result);
-    });
+  async executeSql(command, successMessage) {
+    try {
+      return await new Promise((resolve, reject) => {
+        connection.execute(command, (err, result) => {
+          if (err) reject(err);
+          resolve(result);
+        });
+      });
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 }
 

@@ -1,4 +1,6 @@
 const inquirer = require("inquirer");
+const cTable = require("console.table");
+const wait = require("wait-console-input");
 const DataManager = require("./src/DataManager");
 
 const choiceList = [
@@ -134,36 +136,43 @@ async function updateEmployeeRole() {
   }
 }
 
+async function displayMessage(message) {
+  console.table(message);
+  wait.readChar("Press any key to return to menu");
+}
+
 async function promptQuestions() {
   try {
     const answer = await inquirer.prompt(questions);
+    let res;
 
     switch (answer.task) {
       case choiceList[0]:
-        dataManager.getDepartments();
+        res = await dataManager.getDepartments();
         break;
       case choiceList[1]:
-        dataManager.getRoles();
+        res = await dataManager.getRoles();
         break;
       case choiceList[2]:
-        dataManager.getEmployees();
+        res = await dataManager.getEmployees();
         break;
       case choiceList[3]:
-        await setDeparmentData();
+        res = await setDeparmentData();
         break;
       case choiceList[4]:
-        await setRoleData();
+        res = await setRoleData();
         break;
       case choiceList[5]:
-        await setEmployeeData();
+        res = await setEmployeeData();
         break;
       case choiceList[6]:
-        await updateEmployeeRole();
+        res = await updateEmployeeRole();
         break;
       default:
         console.log("Goodbye!");
         process.exit(0);
     }
+    displayMessage(res);
     promptQuestions();
   } catch (err) {
     if (err) throw new Error(err);
