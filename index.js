@@ -14,25 +14,25 @@ async function promptQuestions() {
     let res;
 
     switch (answer.task) {
-      case this.choiceList[0]:
+      case qManager.choiceList[0]:
         res = await dataManager.getDepartments();
         break;
-      case this.choiceList[1]:
+      case qManager.choiceList[1]:
         res = await dataManager.getRoles();
         break;
-      case this.choiceList[2]:
+      case qManager.choiceList[2]:
         res = await dataManager.getEmployees();
         break;
-      case this.choiceList[3]:
+      case qManager.choiceList[3]:
         res = await setDeparmentData();
         break;
-      case this.choiceList[4]:
+      case qManager.choiceList[4]:
         res = await setRoleData();
         break;
-      case this.choiceList[5]:
+      case qManager.choiceList[5]:
         res = await setEmployeeData();
         break;
-      case this.choiceList[6]:
+      case qManager.choiceList[6]:
         res = await updateEmployeeRole();
         break;
       default:
