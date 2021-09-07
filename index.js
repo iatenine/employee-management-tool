@@ -38,7 +38,12 @@ async function promptQuestions() {
         break;
       case qManager.choiceList[5]:
         answer = await inquirer.prompt(qManager.employeeAddQuestions);
-        res = await dataManager.addEmployee();
+        res = await dataManager.addEmployee(
+          answer.first_name,
+          answer.last_name,
+          answer.role_id,
+          answer.manager_id
+        );
         break;
       case qManager.choiceList[6]:
         answer = await inquirer.prompt(qManager.updateRoleQuestions);
